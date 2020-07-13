@@ -8,7 +8,7 @@ function App(){
 
 return(
   <div>
-  {/*버튼을 누르면 올라가는 숫자*/}
+  {/*버튼을 누르면 count가 변경 */}
     <p>Number : {count} </p>
     {/*버튼을 클릭해 count + 1 */}
     <Button onClick={() => setCount(count + 1)}>
