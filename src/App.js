@@ -1,25 +1,58 @@
-// 카운터
-import React,{useState} from 'react';
-import { Button } from 'react-bootstrap';
+import React,{useState, useEffect} from 'react';
+import './App.css';
 
-function App(){
-  //count라는 값을 상태값 정의
-  const [count, setCount] = useState(0);
+const App = () => {
+  const [state, setState] = useState({id: "", pw: "", list:[]});
 
-return(
-  <div>
-  {/*버튼을 누르면 count가 변경 */}
-    <p>Number : {count} </p>
-    {/*버튼을 클릭해 count + 1 */}
-    <Button onClick={() => setCount(count + 1)}>
-      Click me + 
-    </Button>
-    {/*버튼을 클릭해 count - 1 */}
-    <Button onClick={() => setCount(count - 1)}>
-    Click me - 
-  </Button> 
-  </div> 
-);
+  useEffect(()=>{
+    console.log("id:" + state.id, "pw:" + state.pw);
+  });
+
+  const handleChange = (e) => {
+    setState({
+    ...state,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  const hendleCreate = () => {
+    const {id,pw,list} = state;
+    setState({
+      ...state,
+      list:list.concat({
+        id:id,
+        pw:pw
+      })
+    })
+  };
+
+  const handleRemove = ({id}) =>{
+    const {list} = state;
+    setState({
+      ...state, 
+      list:list.filter((data) => data.id !== id),        
+    });                                   
+  }
+
+  return (
+    <div className="App">
+      <h1>로그인</h1>
+      <form>
+        <input placeholder="id" value={state.id} onChange={handleChange} name="id" />
+        <input placeholder="pw" value={state.pw} onChange={handleChange} name="pw" />
+        <p onClick={hendleCreate}>등록</p>
+      </form>
+      <ul> 
+        {state.list.map((data,idx) => {
+          return(
+            <li key={idx} onClick={handleRemove}>
+              {data.id} / {data.pw}
+            </li>
+          );
+        })}
+    </ul>
+    </div>
+  )
 }
 
 export default App;
